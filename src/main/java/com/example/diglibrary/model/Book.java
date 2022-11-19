@@ -13,9 +13,7 @@ public class Book {
     private String isbn;
     private String title;
     private String author;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "date")
-    private Date date;
+    private String date;
     private int pages;
     private String genres;
 
@@ -43,11 +41,11 @@ public class Book {
         this.author = author;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

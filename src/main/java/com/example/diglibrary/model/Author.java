@@ -1,11 +1,13 @@
 package com.example.diglibrary.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Author {
     @Id
+    @GeneratedValue
     private Long id;
     private String firstname;
     private String secondname;
