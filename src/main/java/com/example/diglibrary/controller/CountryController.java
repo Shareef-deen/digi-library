@@ -1,46 +1,37 @@
 package com.example.diglibrary.controller;
 
-import com.example.diglibrary.exception.AuthorNotFoundException;
 import com.example.diglibrary.exception.CountryNotFoundException;
-import com.example.diglibrary.model.Author;
+import com.example.diglibrary.model.Count;
 import com.example.diglibrary.model.Country;
+import com.example.diglibrary.repository.CountRepository;
 import com.example.diglibrary.repository.CountryRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.diglibrary.service.AutoAddCountry;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class CountryController {
     @Autowired
     private CountryRepository countryRepository;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
-    Country country1 ;
+    @Autowired
+    private CountRepository countRepository;
+
+    @Autowired
+    private AutoAddCountry autoAddCountry;
 
 
-    @GetMapping
-    public void autoAdd(String country) throws IOException{
-        String url= "https://restcountries.com/v2/alpha/"+country;
+    @PostMapping("/api/{country}")
+    public Count autoAdd(@PathVariable String country) throws IOException{
+        Count response= autoAddCountry.autoAdd(country);
+        return countRepository.save(response);
+        /*String url= "https://restcountries.com/v2/alpha/"+country;
         RestTemplate restTemplate = new RestTemplate();
 
         String countries = restTemplate.getForObject(url, String.class);
@@ -76,7 +67,7 @@ public class CountryController {
        //Country count = new Country(alph,nam,str,curr,lang);
        //newAutoAdd(count);
 
-
+*/
 
     }
     @PostMapping
